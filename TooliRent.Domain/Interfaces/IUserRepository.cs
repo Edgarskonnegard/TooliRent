@@ -1,6 +1,6 @@
 using TooliRent.Domain.Models;
 
-namespace TooliRent.Infrastructure.Interfaces;
+namespace TooliRent.Domain.Interfaces;
 
 public interface IUserRepository
 {

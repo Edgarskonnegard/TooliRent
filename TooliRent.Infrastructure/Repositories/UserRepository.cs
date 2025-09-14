@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TooliRent.Infrastructure.Interfaces;
+using TooliRent.Domain.Interfaces;
 using TooliRent.Domain.Models;
 using TooliRent.Infrastructure.Data;
 
