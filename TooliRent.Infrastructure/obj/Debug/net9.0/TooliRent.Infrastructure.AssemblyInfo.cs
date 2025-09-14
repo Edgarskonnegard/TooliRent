@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TooliRent.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b7901b70917864e99240b34d3919570cea9e9f03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99a0d4ac036b42337cf25a43bb32105cdfb76d26")]
 [assembly: System.Reflection.AssemblyProductAttribute("TooliRent.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TooliRent.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
