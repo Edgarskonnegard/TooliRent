@@ -1,0 +1,16 @@
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/bin/Debug/net9.0/TooliRent.Application.deps.json
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/bin/Debug/net9.0/TooliRent.Application.dll
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/bin/Debug/net9.0/TooliRent.Application.pdb
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/bin/Debug/net9.0/TooliRent.Domain.dll
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/bin/Debug/net9.0/TooliRent.Domain.pdb
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.csproj.AssemblyReference.cache
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.AssemblyInfoInputs.cache
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.AssemblyInfo.cs
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.csproj.CoreCompileInputs.cache
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.sourcelink.json
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRen.9E1FF234.Up2Date
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.dll
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/refint/TooliRent.Application.dll
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/TooliRent.Application.pdb
+/Users/edgarskonnegard/TooliRent/TooliRent.Application/obj/Debug/net9.0/ref/TooliRent.Application.dll
