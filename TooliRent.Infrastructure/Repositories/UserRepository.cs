@@ -40,8 +40,9 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(User user, CancellationToken ct = default)
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         _context.Users.Remove(user);
         await _context.SaveChangesAsync(ct);
     }

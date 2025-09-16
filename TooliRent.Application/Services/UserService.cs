@@ -18,9 +18,9 @@ namespace TooliRent.Application.Services
             await _repo.AddAsync(user, ct);
         }
 
-        public async Task DeleteAsync(User user, CancellationToken ct = default)
+        public async Task DeleteAsync(int id, CancellationToken ct = default)
         {
-            await _repo.DeleteAsync(user, ct);
+            await _repo.DeleteAsync(id, ct);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken ct = default)
