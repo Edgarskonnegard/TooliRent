@@ -1,44 +1,40 @@
+using TooliRent.Application.Interfaces;
 using TooliRent.Domain.Interfaces;
 using TooliRent.Domain.Models;
 
-namespace TooliRent.Application.Services
+namespace TooliRent.Application.Services;
+
+public class ToolService : IToolService
 {
-    public class CategoryService : ICategoryService
+    private readonly IToolRepository _toolRepository;
+
+    public ToolService(IToolRepository toolRepository)
     {
-        private readonly ICategoryRepository _repo;
+        _toolRepository = toolRepository;
+    }
 
-        public CategoryService(ICategoryRepository repo)
-        {
-            _repo = repo;
-        }
+    public async Task<Tool?> GetByIdAsync(int id, CancellationToken ct = default)
+    {
+        return await _toolRepository.GetByIdAsync(id, ct);
+    }
 
-        public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken ct = default)
-        {
-            return await _repo.GetAllAsync(ct);
-        }
+    public async Task<IEnumerable<Tool>> GetAllAsync(CancellationToken ct = default)
+    {
+        return await _toolRepository.GetAllAsync(ct);
+    }
 
-        public async Task<Category?> GetByIdAsync(int id, CancellationToken ct = default)
-        {
-            return await _repo.GetByIdAsync(id, ct);
-        }
+    public async Task AddAsync(Tool tool, CancellationToken ct = default)
+    {
+        await _toolRepository.AddAsync(tool, ct);
+    }
 
-        public async Task AddAsync(Category category, CancellationToken ct = default)
-        {
-            await _repo.AddAsync(category, ct);
-        }
+    public async Task UpdateAsync(Tool tool, CancellationToken ct = default)
+    {
+        await _toolRepository.UpdateAsync(tool, ct);
+    }
 
-        public async Task UpdateAsync(Category category, CancellationToken ct = default)
-        {
-            await _repo.UpdateAsync(category, ct);
-        }
-
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
-        {
-            var category = await _repo.GetByIdAsync(id, ct);
-            if (category != null)
-            {
-                await _repo.DeleteAsync(category, ct);
-            }
-        }
+    public async Task DeleteAsync(Tool tool, CancellationToken ct = default)
+    {
+        await _toolRepository.DeleteAsync(tool, ct);
     }
 }

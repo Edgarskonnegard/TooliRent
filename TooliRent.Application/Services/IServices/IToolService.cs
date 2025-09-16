@@ -1,13 +1,12 @@
 using TooliRent.Domain.Models;
 
-namespace TooliRent.Domain.Interfaces
+namespace TooliRent.Application.Interfaces;
+
+public interface IToolService
 {
-    public interface ICategoryService
-    {
-        Task<IEnumerable<Category>> GetAllAsync(CancellationToken ct = default);
-        Task<Category?> GetByIdAsync(int id, CancellationToken ct = default);
-        Task AddAsync(Category category, CancellationToken ct = default);
-        Task UpdateAsync(Category category, CancellationToken ct = default);
-        Task DeleteAsync(int id, CancellationToken ct = default);
-    }
+    Task<Tool?> GetByIdAsync(int id, CancellationToken ct = default);
+    Task<IEnumerable<Tool>> GetAllAsync(CancellationToken ct = default);
+    Task AddAsync(Tool tool, CancellationToken ct = default);
+    Task UpdateAsync(Tool tool, CancellationToken ct = default);
+    Task DeleteAsync(Tool tool, CancellationToken ct = default);
 }
