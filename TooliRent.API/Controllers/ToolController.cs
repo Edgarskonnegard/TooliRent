@@ -50,5 +50,19 @@ namespace TooliRent.API.Controllers
                 return NotFound();
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken ct)
+        {
+            try
+            {
+                await _toolService.DeleteAsync(id, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }
