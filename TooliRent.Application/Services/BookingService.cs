@@ -33,8 +33,11 @@ public class BookingService : IBookingService
         await _bookingRepository.UpdateAsync(booking, ct);
     }
 
-    public async Task DeleteAsync(Booking booking, CancellationToken ct = default)
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
-        await _bookingRepository.DeleteAsync(booking, ct);
+        var bookingToDelete = await _bookingRepository.GetByIdAsync(id, ct);
+        if (bookingToDelete == null) throw new KeyNotFoundException();
+
+        await _bookingRepository.DeleteAsync(bookingToDelete, ct);
     }
 }
