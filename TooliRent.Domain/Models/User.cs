@@ -18,14 +18,16 @@ public class User
     public string Email { get; set; } = string.Empty;
 
     [Required]
-    [MinLength(6)]
     public string PasswordHash { get; set; } = string.Empty;
 
     public bool IsActive { get; set; } = true;
 
     [Required]
     [MaxLength(20)]
-    public string Role { get; set; } = "Member"; // Member eller Admin
+    public string Role { get; set; } = "Member"; 
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? LastLoginAt { get; set; }
 
     // Navigation property
     public List<Booking> Bookings { get; set; } = new();
