@@ -28,8 +28,22 @@ public class BookingService : IBookingService
         await _bookingRepository.AddAsync(booking, ct);
     }
 
-    public async Task UpdateAsync(Booking booking, CancellationToken ct = default)
+    public async Task UpdateAsync(int id, Booking updatedBooking, CancellationToken ct = default)
     {
+        var booking = await _bookingRepository.GetByIdAsync(id, ct);
+
+        if (booking == null)
+        {
+            throw new KeyNotFoundException($"Booking with id {id} not found");
+        }
+
+        booking.UserId = updatedBooking.UserId;
+        booking.ToolId = updatedBooking.ToolId;
+        booking.StartDate = updatedBooking.StartDate;
+        booking.EndDate = updatedBooking.EndDate;
+        booking.IsCollected = updatedBooking.IsCollected;
+        booking.IsReturned = updatedBooking.IsReturned;
+
         await _bookingRepository.UpdateAsync(booking, ct);
     }
 
