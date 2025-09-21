@@ -11,6 +11,7 @@ public class Tool
 
     [MaxLength(500)]
     public string Description { get; set; } = string.Empty;
+    public decimal PricePerDay { get; set; }
 
     public bool IsAvailable { get; set; } = true;
     public int CategoryId { get; set; }
