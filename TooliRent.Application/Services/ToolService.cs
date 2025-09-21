@@ -28,9 +28,18 @@ public class ToolService : IToolService
         await _toolRepository.AddAsync(tool, ct);
     }
 
-    public async Task UpdateAsync(Tool tool, CancellationToken ct = default)
+    public async Task UpdateAsync(int id, Tool updatedTool, CancellationToken ct = default)
     {
-        await _toolRepository.UpdateAsync(tool, ct);
+        var existingTool = await _toolRepository.GetByIdAsync(id, ct);
+        if (existingTool == null) throw new KeyNotFoundException("Tool not found");
+
+        
+        existingTool.Name = updatedTool.Name;
+        existingTool.CategoryId = updatedTool.CategoryId;
+        existingTool.Description = updatedTool.Description;
+        existingTool.IsAvailable = updatedTool.IsAvailable;
+
+        await _toolRepository.UpdateAsync(existingTool, ct);
     }
 
     public async Task DeleteAsync(Tool tool, CancellationToken ct = default)

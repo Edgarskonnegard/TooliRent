@@ -43,8 +43,15 @@ namespace TooliRent.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, User user, CancellationToken ct)
         {
-            await _userService.UpdateAsync(user, ct);
-            return NoContent();
+            try
+            {
+                await _userService.UpdateAsync(id, user, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("{id}")]

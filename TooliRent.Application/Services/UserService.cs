@@ -42,8 +42,20 @@ namespace TooliRent.Application.Services
             return await _repo.GetByIdAsync(id, ct);
         }
 
-        public async Task UpdateAsync(User user, CancellationToken ct = default)
+        public async Task UpdateAsync(int id, User updatedUser, CancellationToken ct = default)
         {
+             var user = await _repo.GetByIdAsync(id, ct);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with id {id} not found");
+            }
+
+            user.Username = updatedUser.Username;
+            user.Email = updatedUser.Email;
+            user.IsActive = updatedUser.IsActive;
+            user.Role = updatedUser.Role;
+           
             await _repo.UpdateAsync(user, ct);
         }
     }
