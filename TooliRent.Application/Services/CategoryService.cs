@@ -28,8 +28,17 @@ public class CategoryService : ICategoryService
         await _categoryRepository.AddAsync(category, ct);
     }
 
-    public async Task UpdateAsync(Category category, CancellationToken ct = default)
+    public async Task UpdateAsync(int id, Category updatedCategory, CancellationToken ct = default)
     {
+        var category = await _categoryRepository.GetByIdAsync(id, ct);
+
+        if (category == null)
+        {
+            throw new KeyNotFoundException($"Category with id {id} not found");
+        }
+
+        category.Name = updatedCategory.Name;
+
         await _categoryRepository.UpdateAsync(category, ct);
     }
 
@@ -37,7 +46,7 @@ public class CategoryService : ICategoryService
     {
         var categoryToDelete = await _categoryRepository.GetByIdAsync(id, ct);
         if(categoryToDelete == null) throw new KeyNotFoundException();
-        
+
         await _categoryRepository.DeleteAsync(categoryToDelete, ct);
     }
 }
