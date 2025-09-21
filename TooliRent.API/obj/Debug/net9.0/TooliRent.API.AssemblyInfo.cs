@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TooliRent.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c89f641acfcb4e627a471360527552f703edc774")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f888c9d6be8f42f9ff8e147be4bbf26da55b10ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("TooliRent.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TooliRent.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
