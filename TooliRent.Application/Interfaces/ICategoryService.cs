@@ -8,5 +8,5 @@ public interface ICategoryService
     Task<IEnumerable<Category>> GetAllAsync(CancellationToken ct = default);
     Task AddAsync(Category category, CancellationToken ct = default);
     Task UpdateAsync(Category category, CancellationToken ct = default);
-    Task DeleteAsync(Category category, CancellationToken ct = default);
+    Task DeleteAsync(int id, CancellationToken ct = default);
 }

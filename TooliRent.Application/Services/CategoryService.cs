@@ -33,8 +33,11 @@ public class CategoryService : ICategoryService
         await _categoryRepository.UpdateAsync(category, ct);
     }
 
-    public async Task DeleteAsync(Category category, CancellationToken ct = default)
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
-        await _categoryRepository.DeleteAsync(category, ct);
+        var categoryToDelete = await _categoryRepository.GetByIdAsync(id, ct);
+        if(categoryToDelete == null) throw new KeyNotFoundException();
+        
+        await _categoryRepository.DeleteAsync(categoryToDelete, ct);
     }
 }
