@@ -10,4 +10,6 @@ public interface IBookingService
     Task<BookingReadDto?> AddAsync(BookingCreateDto bookingDto, CancellationToken ct = default);
     Task<BookingReadDto?> UpdateAsync(int id, BookingUpdateDto updatedBookingDto, CancellationToken ct = default);
     Task DeleteAsync(int id, CancellationToken ct = default);
+    Task<BookingReadDto?> CollectAsync(int id, CancellationToken ct = default);
+    Task<BookingReadDto?> ReturnAsync(int id, CancellationToken ct = default);
 }

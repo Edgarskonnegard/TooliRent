@@ -19,6 +19,8 @@ public class Booking
 
     [Required]
     public DateTime EndDate { get; set; }
+    public DateTime CollectedAt { get; set; }
+    public DateTime ReturnedAt { get; set; }
 
     public bool IsCollected { get; set; } = false;
     public bool IsReturned { get; set; } = false;

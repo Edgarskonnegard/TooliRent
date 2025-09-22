@@ -69,6 +69,33 @@ namespace TooliRent.Api.Controllers
             }
         }
 
-        //[HttpPut{"(id/)"}]
+        [HttpPut("{id}/collect")]
+public async Task<IActionResult> Collect(int id, CancellationToken ct)
+{
+    try
+    {
+        var booking = await _bookingService.CollectAsync(id, ct);
+        return Ok(booking);
+    }
+    catch (KeyNotFoundException)
+    {
+        return NotFound();
+    }
+}
+
+[HttpPut("{id}/return")]
+public async Task<IActionResult> Return(int id, CancellationToken ct)
+{
+    try
+    {
+        var booking = await _bookingService.ReturnAsync(id, ct);
+        return Ok(booking);
+    }
+    catch (KeyNotFoundException)
+    {
+        return NotFound();
+    }
+}
+
     }
 }
