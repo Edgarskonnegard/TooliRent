@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TooliRent.Application.DTOs.Tool;
 using TooliRent.Application.Interfaces;
 using TooliRent.Domain.Models;
 
@@ -25,24 +26,24 @@ namespace TooliRent.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
-            var tool = await _toolService.GetByIdAsync(id, ct);
-            if (tool == null) return NotFound();
-            return Ok(tool);
+            var toolDto = await _toolService.GetByIdAsync(id, ct);
+            if (toolDto == null) return NotFound();
+            return Ok(toolDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Tool tool, CancellationToken ct)
+        public async Task<IActionResult> Create(ToolCreateDto toolDto, CancellationToken ct)
         {
-            await _toolService.AddAsync(tool, ct);
-            return CreatedAtAction(nameof(GetById), new { id = tool.Id }, tool);
+            var result = await _toolService.AddAsync(toolDto, ct);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Tool tool, CancellationToken ct)
+        public async Task<IActionResult> Update(int id, ToolUpdateDto toolDto, CancellationToken ct)
         {
             try
             {
-                await _toolService.UpdateAsync(id, tool, ct);
+                await _toolService.UpdateAsync(id, toolDto, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException)

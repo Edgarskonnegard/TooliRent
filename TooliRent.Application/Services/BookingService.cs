@@ -1,4 +1,7 @@
+using AutoMapper;
+using TooliRent.Application.DTOs.Booking;
 using TooliRent.Application.Interfaces;
+using TooliRent.Application.Mapping;
 using TooliRent.Domain.Interfaces;
 using TooliRent.Domain.Models;
 
@@ -7,28 +10,35 @@ namespace TooliRent.Application.Services;
 public class BookingService : IBookingService
 {
     private readonly IBookingRepository _bookingRepository;
+    private readonly IMapper _mapper;
 
-    public BookingService(IBookingRepository bookingRepository)
+    public BookingService(IBookingRepository bookingRepository, IMapper mapper)
     {
         _bookingRepository = bookingRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Booking?> GetByIdAsync(int id, CancellationToken ct = default)
+    public async Task<BookingReadDto?> GetByIdAsync(int id, CancellationToken ct = default)
     {
-        return await _bookingRepository.GetByIdAsync(id, ct);
+        var result = await _bookingRepository.GetByIdAsync(id, ct);
+        return _mapper.Map<BookingReadDto>(result);
     }
 
-    public async Task<IEnumerable<Booking>> GetAllAsync(CancellationToken ct = default)
+    public async Task<IEnumerable<BookingReadDto>> GetAllAsync(CancellationToken ct = default)
     {
-        return await _bookingRepository.GetAllAsync(ct);
+        var bookings = await _bookingRepository.GetAllAsync(ct);
+        return _mapper.Map<IEnumerable<BookingReadDto>>(bookings);
     }
 
-    public async Task AddAsync(Booking booking, CancellationToken ct = default)
+    public async Task<BookingReadDto?> AddAsync(BookingCreateDto bookingDto, CancellationToken ct = default)
     {
-        await _bookingRepository.AddAsync(booking, ct);
+        var booking = _mapper.Map<Booking>(bookingDto);
+        var createdBooking = await _bookingRepository.AddAsync(booking, ct);
+
+        return _mapper.Map<BookingReadDto>(createdBooking);
     }
 
-    public async Task UpdateAsync(int id, Booking updatedBooking, CancellationToken ct = default)
+    public async Task<BookingReadDto?> UpdateAsync(int id, BookingUpdateDto updatedBookingDto, CancellationToken ct = default)
     {
         var booking = await _bookingRepository.GetByIdAsync(id, ct);
 
@@ -37,6 +47,8 @@ public class BookingService : IBookingService
             throw new KeyNotFoundException($"Booking with id {id} not found");
         }
 
+        var updatedBooking = _mapper.Map<Booking>(updatedBookingDto);
+
         booking.UserId = updatedBooking.UserId;
         booking.ToolId = updatedBooking.ToolId;
         booking.StartDate = updatedBooking.StartDate;
@@ -44,7 +56,8 @@ public class BookingService : IBookingService
         booking.IsCollected = updatedBooking.IsCollected;
         booking.IsReturned = updatedBooking.IsReturned;
 
-        await _bookingRepository.UpdateAsync(booking, ct);
+        var result = await _bookingRepository.UpdateAsync(booking, ct);
+        return _mapper.Map<BookingReadDto>(result);
     }
 
     public async Task DeleteAsync(int id, CancellationToken ct = default)

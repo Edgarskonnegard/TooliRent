@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
+using TooliRent.Application.DTOs.Booking;
 
 namespace TooliRent.Api.Controllers
 {
@@ -34,18 +35,18 @@ namespace TooliRent.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Booking booking, CancellationToken ct)
+        public async Task<IActionResult> Create(BookingCreateDto bookingDto, CancellationToken ct)
         {
-            await _bookingService.AddAsync(booking, ct);
-            return CreatedAtAction(nameof(GetById), new { id = booking.Id }, booking);
+            var createdBooking = await _bookingService.AddAsync(bookingDto, ct);
+            return CreatedAtAction(nameof(GetById), new { id = createdBooking.Id }, createdBooking);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Booking booking, CancellationToken ct)
+        public async Task<IActionResult> Update(int id, BookingUpdateDto bookingDto, CancellationToken ct)
         {
             try
             {
-                await _bookingService.UpdateAsync(id, booking, ct);
+                await _bookingService.UpdateAsync(id, bookingDto, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException)
@@ -67,5 +68,7 @@ namespace TooliRent.Api.Controllers
                 return NotFound();
             }
         }
+
+        //[HttpPut{"(id/)"}]
     }
 }

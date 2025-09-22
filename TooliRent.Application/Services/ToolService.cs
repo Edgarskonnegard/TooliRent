@@ -1,3 +1,5 @@
+using AutoMapper;
+using TooliRent.Application.DTOs.Tool;
 using TooliRent.Application.Interfaces;
 using TooliRent.Domain.Interfaces;
 using TooliRent.Domain.Models;
@@ -7,46 +9,53 @@ namespace TooliRent.Application.Services;
 public class ToolService : IToolService
 {
     private readonly IToolRepository _toolRepository;
+    private readonly IMapper _mapper;
 
-    public ToolService(IToolRepository toolRepository)
+    public ToolService(IToolRepository toolRepository, IMapper mapper)
     {
         _toolRepository = toolRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Tool?> GetByIdAsync(int id, CancellationToken ct = default)
+    public async Task<ToolReadDto?> GetByIdAsync(int id, CancellationToken ct = default)
     {
-        return await _toolRepository.GetByIdAsync(id, ct);
+        var result = await _toolRepository.GetByIdAsync(id, ct);
+        return _mapper.Map<ToolReadDto>(result);
     }
 
-    public async Task<IEnumerable<Tool>> GetAllAsync(CancellationToken ct = default)
+    public async Task<IEnumerable<ToolReadDto?>> GetAllAsync(CancellationToken ct = default)
     {
-        return await _toolRepository.GetAllAsync(ct);
+        var result = await _toolRepository.GetAllAsync(ct);
+        return _mapper.Map<IEnumerable<ToolReadDto>>(result);
     }
 
-    public async Task AddAsync(Tool tool, CancellationToken ct = default)
+    public async Task<ToolReadDto?> AddAsync(ToolCreateDto toolDto, CancellationToken ct = default)
     {
+        var tool = _mapper.Map<Tool>(toolDto);
         await _toolRepository.AddAsync(tool, ct);
+        return _mapper.Map<ToolReadDto>(tool);
     }
 
-    public async Task UpdateAsync(int id, Tool updatedTool, CancellationToken ct = default)
+    public async Task<ToolReadDto?> UpdateAsync(int id, ToolUpdateDto updatedToolDto, CancellationToken ct = default)
     {
         var existingTool = await _toolRepository.GetByIdAsync(id, ct);
         if (existingTool == null) throw new KeyNotFoundException("Tool not found");
 
-        
-        existingTool.Name = updatedTool.Name;
-        existingTool.CategoryId = updatedTool.CategoryId;
-        existingTool.Description = updatedTool.Description;
-        existingTool.IsAvailable = updatedTool.IsAvailable;
+
+        existingTool.Name = updatedToolDto.Name;
+        existingTool.CategoryId = updatedToolDto.CategoryId;
+        existingTool.Description = updatedToolDto.Description;
+        existingTool.IsAvailable = updatedToolDto.IsAvailable;
 
         await _toolRepository.UpdateAsync(existingTool, ct);
+        return _mapper.Map<ToolReadDto>(existingTool);
     }
 
     public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
         var toolToDelete = await _toolRepository.GetByIdAsync(id, ct);
         if( toolToDelete == null) throw new KeyNotFoundException();
-        
+
         await _toolRepository.DeleteAsync(toolToDelete, ct);
     }
 }

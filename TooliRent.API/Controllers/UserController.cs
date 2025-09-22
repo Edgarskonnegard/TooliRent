@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
+using TooliRent.Application.DTOs.User;
 
 namespace TooliRent.Api.Controllers
 {
@@ -34,18 +35,18 @@ namespace TooliRent.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User user, CancellationToken ct)
+        public async Task<IActionResult> Create(UserCreateDto userDto, CancellationToken ct)
         {
-            await _userService.AddAsync(user, ct);
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            var result = await _userService.AddAsync(userDto, ct);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, User user, CancellationToken ct)
+        public async Task<IActionResult> Update(int id, UserUpdateDto userDto, CancellationToken ct)
         {
             try
             {
-                await _userService.UpdateAsync(id, user, ct);
+                await _userService.UpdateAsync(id, userDto, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException)

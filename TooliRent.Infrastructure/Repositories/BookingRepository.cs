@@ -39,16 +39,18 @@ namespace TooliRent.Infrastructure.Repositories
                     .ToListAsync(ct);
         }
 
-        public async Task AddAsync(Booking booking, CancellationToken ct = default)
+        public async Task<Booking?> AddAsync(Booking booking, CancellationToken ct = default)
         {
             await _context.Bookings.AddAsync(booking, ct);
             await _context.SaveChangesAsync(ct);
+            return booking;
         }
 
-        public async Task UpdateAsync(Booking booking, CancellationToken ct = default)
+        public async Task<Booking?> UpdateAsync(Booking booking, CancellationToken ct = default)
         {
             _context.Bookings.Update(booking);
             await _context.SaveChangesAsync(ct);
+            return booking;
         }
 
         public async Task DeleteAsync(Booking booking, CancellationToken ct = default)

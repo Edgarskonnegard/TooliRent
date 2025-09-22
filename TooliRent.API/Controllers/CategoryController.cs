@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
+using TooliRent.Application.DTOs.Category;
 
 namespace TooliRent.Api.Controllers
 {
@@ -34,18 +35,18 @@ namespace TooliRent.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Category category, CancellationToken ct)
+        public async Task<IActionResult> Create(CategoryCreateDto categoryDto, CancellationToken ct)
         {
-            await _categoryService.AddAsync(category, ct);
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            var newCategory = await _categoryService.AddAsync(categoryDto, ct);
+            return CreatedAtAction(nameof(GetById), new { id = newCategory.Id }, newCategory);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Category category, CancellationToken ct)
+        public async Task<IActionResult> Update(int id, CategoryUpdateDto categoryDto, CancellationToken ct)
         {
             try
             {
-                await _categoryService.UpdateAsync(id, category, ct);
+                await _categoryService.UpdateAsync(id, categoryDto, ct);
                 return NoContent();
             }
             catch (KeyNotFoundException)

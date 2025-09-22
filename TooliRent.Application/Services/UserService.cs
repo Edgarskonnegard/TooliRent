@@ -1,3 +1,5 @@
+using AutoMapper;
+using TooliRent.Application.DTOs.User;
 using TooliRent.Application.Interfaces;
 using TooliRent.Domain.Interfaces;
 using TooliRent.Domain.Models;
@@ -7,15 +9,19 @@ namespace TooliRent.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _repo;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repo)
+        public UserService(IUserRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task AddAsync(User user, CancellationToken ct = default)
+        public async Task<UserReadDto?> AddAsync(UserCreateDto userDto, CancellationToken ct = default)
         {
+            var user = _mapper.Map<User>(userDto);
             await _repo.AddAsync(user, ct);
+            return _mapper.Map<UserReadDto>(user);
         }
 
         public async Task DeleteAsync(int id, CancellationToken ct = default)
@@ -27,36 +33,40 @@ namespace TooliRent.Application.Services
             }
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<UserReadDto?>> GetAllAsync(CancellationToken ct = default)
         {
-            return await _repo.GetAllAsync(ct);
+            var users = await _repo.GetAllAsync(ct);
+            return _mapper.Map<IEnumerable<UserReadDto>>(users);
         }
 
-        public async Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
+        public async Task<UserReadDto?> GetByEmailAsync(string email, CancellationToken ct = default)
         {
-            return await _repo.GetByEmailAsync(email, ct);
+            var userEmail = await _repo.GetByEmailAsync(email, ct);
+            return _mapper.Map<UserReadDto>(userEmail);
         }
 
-        public async Task<User?> GetByIdAsync(int id, CancellationToken ct = default)
+        public async Task<UserReadDto?> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return await _repo.GetByIdAsync(id, ct);
+            var user = await _repo.GetByIdAsync(id, ct);
+            return _mapper.Map<UserReadDto>(user);
         }
 
-        public async Task UpdateAsync(int id, User updatedUser, CancellationToken ct = default)
+        public async Task<UserReadDto?> UpdateAsync(int id, UserUpdateDto updatedUserDto, CancellationToken ct = default)
         {
-             var user = await _repo.GetByIdAsync(id, ct);
+            var user = await _repo.GetByIdAsync(id, ct);
 
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with id {id} not found");
             }
 
-            user.Username = updatedUser.Username;
-            user.Email = updatedUser.Email;
-            user.IsActive = updatedUser.IsActive;
-            user.Role = updatedUser.Role;
-           
+            user.Username = updatedUserDto.Username;
+            user.Email = updatedUserDto.Email;
+            user.IsActive = true;
+            user.Role = updatedUserDto.Role;
+
             await _repo.UpdateAsync(user, ct);
+            return _mapper.Map<UserReadDto>(user);
         }
     }
 }
