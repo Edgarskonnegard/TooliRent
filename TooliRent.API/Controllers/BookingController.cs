@@ -69,7 +69,7 @@ namespace TooliRent.Api.Controllers
             }
         }
 
-        [HttpPut("{id}/collect")]
+[HttpPut("{id}/collect")]
 public async Task<IActionResult> Collect(int id, CancellationToken ct)
 {
     try

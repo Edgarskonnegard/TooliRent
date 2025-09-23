@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "HgepCn0fPuI=",
+  "dgSpecHash": "hhehWgNHuu8=",
   "success": true,
   "projectFilePath": "/Users/edgarskonnegard/TooliRent/TooliRent.Application/TooliRent.Application.csproj",
   "expectedPackageFiles": [
     "/Users/edgarskonnegard/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "/Users/edgarskonnegard/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
+    "/Users/edgarskonnegard/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "/Users/edgarskonnegard/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
