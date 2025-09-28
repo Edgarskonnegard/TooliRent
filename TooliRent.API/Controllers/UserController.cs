@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
 using TooliRent.Application.DTOs.User;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace TooliRent.Api.Controllers
 {
@@ -16,6 +18,7 @@ namespace TooliRent.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
@@ -23,6 +26,7 @@ namespace TooliRent.Api.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
@@ -34,6 +38,7 @@ namespace TooliRent.Api.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Create(UserCreateDto userDto, CancellationToken ct)
         {
@@ -41,9 +46,17 @@ namespace TooliRent.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
+        [Authorize(Roles = "Member,admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UserUpdateDto userDto, CancellationToken ct)
         {
+            var loggedInUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var loggedInUserRole = User.FindFirst(ClaimTypes.Role)!.Value;
+
+            if (loggedInUserRole == "Member" && loggedInUserId != id)
+            {
+                return Forbid(); 
+            }
             try
             {
                 await _userService.UpdateAsync(id, userDto, ct);
@@ -55,6 +68,7 @@ namespace TooliRent.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Member,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {

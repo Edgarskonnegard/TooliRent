@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
 using TooliRent.Application.DTOs.Booking;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace TooliRent.Api.Controllers
 {
@@ -16,6 +18,7 @@ namespace TooliRent.Api.Controllers
             _bookingService = bookingService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
@@ -23,6 +26,7 @@ namespace TooliRent.Api.Controllers
             return Ok(bookings);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
@@ -34,6 +38,7 @@ namespace TooliRent.Api.Controllers
             return Ok(booking);
         }
 
+        [Authorize(Roles = "Member, admin")]
         [HttpPost]
         public async Task<IActionResult> Create(BookingCreateDto bookingDto, CancellationToken ct)
         {
@@ -41,6 +46,7 @@ namespace TooliRent.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdBooking.Id }, createdBooking);
         }
 
+        [Authorize(Roles = "Member, admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, BookingUpdateDto bookingDto, CancellationToken ct)
         {
@@ -55,6 +61,7 @@ namespace TooliRent.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {
@@ -69,33 +76,49 @@ namespace TooliRent.Api.Controllers
             }
         }
 
-[HttpPut("{id}/collect")]
-public async Task<IActionResult> Collect(int id, CancellationToken ct)
-{
-    try
-    {
-        var booking = await _bookingService.CollectAsync(id, ct);
-        return Ok(booking);
-    }
-    catch (KeyNotFoundException)
-    {
-        return NotFound();
-    }
-}
+        [Authorize(Roles = "Member, admin")]
+        [HttpPut("{id}/collect")]
+        public async Task<IActionResult> Collect(int id, CancellationToken ct)
+        {
+            try
+            {
+                var booking = await _bookingService.CollectAsync(id, ct);
+                return Ok(booking);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
-[HttpPut("{id}/return")]
-public async Task<IActionResult> Return(int id, CancellationToken ct)
-{
-    try
-    {
-        var booking = await _bookingService.ReturnAsync(id, ct);
-        return Ok(booking);
-    }
-    catch (KeyNotFoundException)
-    {
-        return NotFound();
-    }
-}
+        [Authorize(Roles = "Member, admin")]
+        [HttpPut("{id}/return")]
+        public async Task<IActionResult> Return(int id, CancellationToken ct)
+        {
+            try
+            {
+                var booking = await _bookingService.ReturnAsync(id, ct);
+                return Ok(booking);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [Authorize(Roles = "Member,Admin")]
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyBookings(CancellationToken ct)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null) return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+
+            var bookings = await _bookingService.GetByUserIdAsync(userId, ct);
+
+            return Ok(bookings);
+        }
 
     }
 }

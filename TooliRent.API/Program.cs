@@ -13,13 +13,44 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TooliRent API", Version = "v1" });
+
+    // Lägg till JWT Authentication
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Skriv 'Bearer {din token}' för att autentisera"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -59,11 +90,13 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IToolService, ToolService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
 var app = builder.Build();
 

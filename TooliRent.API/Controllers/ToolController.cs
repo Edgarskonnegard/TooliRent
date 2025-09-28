@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TooliRent.Application.DTOs.Tool;
 using TooliRent.Application.Interfaces;
@@ -16,6 +17,7 @@ namespace TooliRent.API.Controllers
             _toolService = toolService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
@@ -23,6 +25,7 @@ namespace TooliRent.API.Controllers
             return Ok(tools);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
@@ -31,6 +34,7 @@ namespace TooliRent.API.Controllers
             return Ok(toolDto);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(ToolCreateDto toolDto, CancellationToken ct)
         {
@@ -38,6 +42,7 @@ namespace TooliRent.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, ToolUpdateDto toolDto, CancellationToken ct)
         {
@@ -52,6 +57,7 @@ namespace TooliRent.API.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {

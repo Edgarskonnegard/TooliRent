@@ -10,12 +10,12 @@ using TooliRent.Domain.Interfaces;
 public class AuthService
 {
     private readonly IUserRepository _userRepository;
-    private readonly PasswordService _passwordService;
+    private readonly IPasswordService _passwordService;
     private readonly JwtSettings _jwtSettings;
 
     public AuthService(
         IUserRepository userRepository,
-        PasswordService passwordService,
+        IPasswordService passwordService,
         IOptions<JwtSettings> jwtOptions)
     {
         _userRepository = userRepository;

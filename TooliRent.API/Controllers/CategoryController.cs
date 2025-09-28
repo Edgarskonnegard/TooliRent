@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using TooliRent.Domain.Models;
 using TooliRent.Application.Interfaces;
 using TooliRent.Application.DTOs.Category;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TooliRent.Api.Controllers
 {
@@ -16,6 +17,7 @@ namespace TooliRent.Api.Controllers
             _categoryService = categoryService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
@@ -23,6 +25,7 @@ namespace TooliRent.Api.Controllers
             return Ok(categories);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
@@ -34,6 +37,7 @@ namespace TooliRent.Api.Controllers
             return Ok(category);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateDto categoryDto, CancellationToken ct)
         {
@@ -41,6 +45,7 @@ namespace TooliRent.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = newCategory.Id }, newCategory);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CategoryUpdateDto categoryDto, CancellationToken ct)
         {
@@ -54,7 +59,7 @@ namespace TooliRent.Api.Controllers
                 return NotFound();
             }
         }
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
         {
