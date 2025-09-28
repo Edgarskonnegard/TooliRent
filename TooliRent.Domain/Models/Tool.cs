@@ -14,7 +14,7 @@ public class Tool
     public decimal PricePerDay { get; set; }
 
     public bool IsAvailable { get; set; } = true;
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     public Category? Category { get; set; }
     public List<Booking> Bookings { get; set; } = new();

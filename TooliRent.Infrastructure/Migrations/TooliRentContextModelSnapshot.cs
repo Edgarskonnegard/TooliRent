@@ -30,7 +30,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CollectedAt")
+                    b.Property<DateTime?>("CollectedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDate")
@@ -42,7 +42,7 @@ namespace TooliRent.Infrastructure.Migrations
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ReturnedAt")
+                    b.Property<DateTime?>("ReturnedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
@@ -52,6 +52,7 @@ namespace TooliRent.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
@@ -63,22 +64,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CollectedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndDate = new DateTime(2025, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCollected = false,
-                            IsReturned = false,
-                            ReturnedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2025, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ToolId = 1,
-                            TotalPrice = 0m,
-                            UserId = 1
-                        });
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("TooliRent.Domain.Models.Category", b =>
@@ -96,19 +82,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Power Tools"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Hand Tools"
-                        });
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TooliRent.Domain.Models.Tool", b =>
@@ -119,7 +93,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -136,33 +110,14 @@ namespace TooliRent.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("PricePerDay")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Tools", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Cordless drill",
-                            IsAvailable = true,
-                            Name = "Drill",
-                            PricePerDay = 50m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "Claw hammer",
-                            IsAvailable = true,
-                            Name = "Hammer",
-                            PricePerDay = 10m
-                        });
+                    b.ToTable("Tools");
                 });
 
             modelBuilder.Entity("TooliRent.Domain.Models.User", b =>
@@ -203,29 +158,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 9, 28, 12, 51, 16, 854, DateTimeKind.Utc).AddTicks(20),
-                            Email = "alice@example.com",
-                            IsActive = true,
-                            PasswordHash = "hashedpassword1",
-                            Role = "Member",
-                            Username = "Alice"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 9, 28, 12, 51, 16, 854, DateTimeKind.Utc).AddTicks(2180),
-                            Email = "bob@example.com",
-                            IsActive = true,
-                            PasswordHash = "hashedpassword2",
-                            Role = "Admin",
-                            Username = "Bob"
-                        });
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TooliRent.Domain.Models.Booking", b =>
@@ -251,9 +184,7 @@ namespace TooliRent.Infrastructure.Migrations
                 {
                     b.HasOne("TooliRent.Domain.Models.Category", "Category")
                         .WithMany("Tools")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });

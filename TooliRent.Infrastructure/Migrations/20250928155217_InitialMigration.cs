@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace TooliRent.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,9 +51,9 @@ namespace TooliRent.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    PricePerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PricePerDay = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,8 +62,7 @@ namespace TooliRent.Infrastructure.Migrations
                         name: "FK_Tools_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -78,11 +75,11 @@ namespace TooliRent.Infrastructure.Migrations
                     ToolId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CollectedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReturnedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CollectedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ReturnedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsCollected = table.Column<bool>(type: "bit", nullable: false),
                     IsReturned = table.Column<bool>(type: "bit", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,38 +97,6 @@ namespace TooliRent.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Power Tools" },
-                    { 2, "Hand Tools" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "CreatedAt", "Email", "IsActive", "LastLoginAt", "PasswordHash", "Role", "Username" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 9, 28, 12, 29, 29, 900, DateTimeKind.Utc).AddTicks(9470), "alice@example.com", true, null, "hashedpassword1", "Member", "Alice" },
-                    { 2, new DateTime(2025, 9, 28, 12, 29, 29, 901, DateTimeKind.Utc).AddTicks(2200), "bob@example.com", true, null, "hashedpassword2", "Admin", "Bob" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Tools",
-                columns: new[] { "Id", "CategoryId", "Description", "IsAvailable", "Name", "PricePerDay" },
-                values: new object[,]
-                {
-                    { 1, 1, "Cordless drill", true, "Drill", 50m },
-                    { 2, 2, "Claw hammer", true, "Hammer", 10m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Bookings",
-                columns: new[] { "Id", "CollectedAt", "EndDate", "IsCollected", "IsReturned", "ReturnedAt", "StartDate", "ToolId", "TotalPrice", "UserId" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 9, 30, 0, 0, 0, 0, DateTimeKind.Local), false, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 9, 28, 0, 0, 0, 0, DateTimeKind.Local), 1, 100m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ToolId",

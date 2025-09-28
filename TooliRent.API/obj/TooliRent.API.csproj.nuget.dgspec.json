@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj": {}
+    "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj": {}
   },
   "projects": {
-    "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj": {
+    "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj",
+        "projectUniqueName": "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj",
         "projectName": "TooliRent.API",
-        "projectPath": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj",
+        "projectPath": "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj",
         "packagesPath": "/Users/edgarskonnegard/.nuget/packages/",
-        "outputPath": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/obj/",
+        "outputPath": "/Users/edgarskonnegard/TooliRent/TooliRent.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/edgarskonnegard/.nuget/NuGet/NuGet.Config"
@@ -51,6 +51,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.1, )"
@@ -60,6 +64,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.8, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.14.0, )"
             }
           },
           "imports": [
@@ -140,6 +148,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[9.0.4, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.14.0, )"
             }
           },
           "imports": [

@@ -35,6 +35,13 @@ public class BookingService : IBookingService
     public async Task<BookingReadDto?> AddAsync(BookingCreateDto bookingDto, CancellationToken ct = default)
     {
         var booking = _mapper.Map<Booking>(bookingDto);
+        var tool = booking.Tool; 
+        if (tool != null)
+        {
+            var totalDays = (booking.EndDate - booking.StartDate).Days + 1;
+            booking.TotalPrice = totalDays * tool.PricePerDay;
+        }
+        
         var createdBooking = await _bookingRepository.AddAsync(booking, ct);
         return _mapper.Map<BookingReadDto>(createdBooking);
     }

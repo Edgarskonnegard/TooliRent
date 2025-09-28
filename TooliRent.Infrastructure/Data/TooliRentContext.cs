@@ -25,19 +25,24 @@ public class TooliRentContext : DbContext
             .HasMany(t => t.Bookings)
             .WithOne(b => b.Tool)
             .HasForeignKey(b => b.ToolId);
+        
+        modelBuilder.Entity<Tool>()
+            .Property(t => t.PricePerDay)
+            .HasPrecision(18, 2);
 
         modelBuilder.Entity<Category>()
             .HasMany(c => c.Tools)
             .WithOne(t => t.Category)
             .HasForeignKey(t => t.CategoryId);
+        
+         modelBuilder.Entity<Booking>(booking =>
+        {
+            booking.Property(b => b.TotalPrice).HasPrecision(18, 2);
+            booking.Property(b => b.CollectedAt).IsRequired(false);
+            booking.Property(b => b.ReturnedAt).IsRequired(false);
+        });
+        //admin password = Admin123?
 
-    modelBuilder.Entity<User>().HasData(
-    new User { Id = 1, Username = "Alice", Email = "alice@example.com", PasswordHash = "hashedpassword1", Role = "Member", IsActive = true },
-    new User { Id = 2, Username = "Bob", Email = "bob@example.com", PasswordHash = "hashedpassword2", Role = "Admin", IsActive = true }
-    );
-
-    
-    
 }
 
 }

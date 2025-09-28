@@ -10,16 +10,20 @@ namespace TooliRent.Application.Services
     {
         private readonly IUserRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IPasswordService _passwordService;
 
-        public UserService(IUserRepository repo, IMapper mapper)
+        public UserService(IUserRepository repo, IMapper mapper, IPasswordService passwordService)
         {
             _repo = repo;
             _mapper = mapper;
+            _passwordService = passwordService;
         }
 
         public async Task<UserReadDto?> AddAsync(UserCreateDto userDto, CancellationToken ct = default)
         {
             var user = _mapper.Map<User>(userDto);
+            user.PasswordHash = _passwordService.HashPassword(user, userDto.Password);
+
             await _repo.AddAsync(user, ct);
             return _mapper.Map<UserReadDto>(user);
         }
