@@ -7,6 +7,7 @@ TooliRent är ett API för uthyrning av verktyg. Systemet låter medlemmar regis
 1. Klona repot: git clone <repo-url> och cd TooliRent
 2. Lägg till anslutningssträng och JWT-inställningar i appsettings.json: "ConnectionStrings": { "DefaultConnection": "Server=<server>;Database=TooliRentDb;Trusted_Connection=True;" }, "JwtSettings": { "Key": "<hemlig-nyckel>", "Issuer": "TooliRent", "Audience": "TooliRentUsers", "ExpiryMinutes": 60 }
 3. Skapa databasen med dotnet ef database update --startup-project ../TooliRent.Api
+(OBS! Se till att du är i TooliRent.Infrastructure directoryn när kommandot utförs)
 4. Starta API:et med cd ../TooliRent.Api och dotnet run. Swagger UI finns på https://localhost:<port>/swagger
 
 ## API Endpoints
