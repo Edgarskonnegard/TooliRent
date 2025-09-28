@@ -13,4 +13,7 @@ public interface IBookingService
     Task<BookingReadDto?> CollectAsync(int id, CancellationToken ct = default);
     Task<BookingReadDto?> ReturnAsync(int id, CancellationToken ct = default);
     Task<IEnumerable<BookingReadDto?>> GetByUserIdAsync(int id, CancellationToken ct = default);
+    Task CancelAsync(int id, CancellationToken ct);
+    Task<IEnumerable<BookingReadDto?>> GetOverdueAsync(CancellationToken ct = default);
+
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TooliRent.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TooliRent.Infrastructure.Data;
 namespace TooliRent.Infrastructure.Migrations
 {
     [DbContext(typeof(TooliRentContext))]
-    partial class TooliRentContextModelSnapshot : ModelSnapshot
+    [Migration("20250928193634_AddBookingStatusFields")]
+    partial class AddBookingStatusFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +47,6 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
-
-                    b.Property<decimal?>("LateFee")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("ReturnedAt")
                         .HasColumnType("datetime2");

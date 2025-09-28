@@ -9,6 +9,7 @@ namespace TooliRent.Application.Interfaces
         Task<UserReadDto?> GetByEmailAsync(string email, CancellationToken ct = default);
         Task<IEnumerable<UserReadDto?>> GetAllAsync(CancellationToken ct = default);
         Task<UserReadDto?> AddAsync(UserCreateDto userDto, CancellationToken ct = default);
+        Task<UserReadDto?> AddStaffAsync(UserCreateDto userDto, CancellationToken ct = default);
         Task<UserReadDto?> UpdateAsync(int id, UserUpdateDto updatedUserDto, CancellationToken ct = default);
         Task DeleteAsync(int id, CancellationToken ct = default);
     }

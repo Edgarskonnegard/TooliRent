@@ -10,5 +10,7 @@ namespace TooliRent.Domain.Interfaces
         Task<Booking?> UpdateAsync(Booking booking, CancellationToken ct = default);
         Task DeleteAsync(Booking booking, CancellationToken ct = default);
         Task<IEnumerable<Booking>> GetByUserIdAsync(int userId, CancellationToken ct = default);
+        Task<IEnumerable<Booking>> GetOverdueAsync(CancellationToken ct = default);
+
     }
 }

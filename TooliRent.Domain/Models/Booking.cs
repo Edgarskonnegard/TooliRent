@@ -24,7 +24,9 @@ public class Booking
 
     public bool IsCollected { get; set; } = false;
     public bool IsReturned { get; set; } = false;
+    public bool IsCancelled { get; set; } = false;
     public decimal TotalPrice { get; set; }
+    public decimal? LateFee { get; set; }
 
     public User? User { get; set; }
 

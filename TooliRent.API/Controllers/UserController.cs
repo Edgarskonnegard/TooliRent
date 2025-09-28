@@ -46,6 +46,14 @@ namespace TooliRent.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
+        [Authorize("admin")]
+        [HttpPost("{Staff}")]
+        public async Task<IActionResult> CreateNewStaff(UserCreateDto userDto, CancellationToken ct)
+        {
+            var result = await _userService.AddStaffAsync(userDto, ct);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+
         [Authorize(Roles = "Member,admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UserUpdateDto userDto, CancellationToken ct)
@@ -71,7 +79,14 @@ namespace TooliRent.Api.Controllers
         [Authorize(Roles = "Member,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken ct)
-        {
+        {   
+            var loggedInUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var loggedInUserRole = User.FindFirst(ClaimTypes.Role)!.Value;
+
+            if (loggedInUserRole == "Member" && loggedInUserId != id)
+            {
+                return Forbid(); 
+            }
             try
             {
                 await _userService.DeleteAsync(id, ct);

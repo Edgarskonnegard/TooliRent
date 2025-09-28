@@ -22,6 +22,16 @@ namespace TooliRent.Application.Services
         public async Task<UserReadDto?> AddAsync(UserCreateDto userDto, CancellationToken ct = default)
         {
             var user = _mapper.Map<User>(userDto);
+            user.Role = "Member";
+            user.PasswordHash = _passwordService.HashPassword(user, userDto.Password);
+
+            await _repo.AddAsync(user, ct);
+            return _mapper.Map<UserReadDto>(user);
+        }
+
+        public async Task<UserReadDto?> AddStaffAsync(UserCreateDto userDto, CancellationToken ct = default)
+        {
+            var user = _mapper.Map<User>(userDto);
             user.PasswordHash = _passwordService.HashPassword(user, userDto.Password);
 
             await _repo.AddAsync(user, ct);
@@ -67,7 +77,7 @@ namespace TooliRent.Application.Services
             user.Username = updatedUserDto.Username;
             user.Email = updatedUserDto.Email;
             user.IsActive = true;
-            user.Role = updatedUserDto.Role;
+            user.Role = "Member";
 
             await _repo.UpdateAsync(user, ct);
             return _mapper.Map<UserReadDto>(user);

@@ -58,5 +58,17 @@ namespace TooliRent.Infrastructure.Repositories
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync(ct);
         }
+
+        public async Task<IEnumerable<Booking>> GetOverdueAsync(CancellationToken ct = default)
+        {
+            var now = DateTime.UtcNow;
+            var overdueBookings = await _context.Bookings
+                .Where(b => b.EndDate < now && !b.IsReturned && !b.IsCancelled)
+                .Include(b => b.User)
+                .Include(b => b.Tool)
+                .ToListAsync(ct);
+
+            return overdueBookings;
+        }
     }
 }

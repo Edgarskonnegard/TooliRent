@@ -35,12 +35,22 @@ public class BookingService : IBookingService
     public async Task<BookingReadDto?> AddAsync(BookingCreateDto bookingDto, CancellationToken ct = default)
     {
         var booking = _mapper.Map<Booking>(bookingDto);
-        var tool = booking.Tool;
-        if (tool != null)
+        var user = booking.User;
+        if (user == null)
         {
-            var totalDays = (booking.EndDate - booking.StartDate).Days + 1;
-            booking.TotalPrice = totalDays * tool.PricePerDay;
+            throw new KeyNotFoundException("User not found.");
         }
+        if (user.Role != "Member")
+        {
+            throw new InvalidOperationException("Only users with role member are allowed to be assigned as lenders.");
+        }
+        var tool = booking.Tool;
+        if (tool == null)
+        {
+            throw new KeyNotFoundException("Tool not found.");
+        }
+        var totalDays = (booking.EndDate - booking.StartDate).Days + 1;
+        booking.TotalPrice = totalDays * tool.PricePerDay;
 
         var createdBooking = await _bookingRepository.AddAsync(booking, ct);
         return _mapper.Map<BookingReadDto>(createdBooking);
@@ -71,6 +81,10 @@ public class BookingService : IBookingService
         {
             var totalDays = (booking.EndDate - booking.StartDate).Days + 1;
             booking.TotalPrice = totalDays * tool.PricePerDay;
+            if (booking.EndDate < DateTime.UtcNow)
+            {
+                booking.LateFee = (DateTime.UtcNow - booking.EndDate).Days * booking.Tool.PricePerDay * 0.1m;
+            }
         }
 
         var result = await _bookingRepository.UpdateAsync(booking, ct);
@@ -106,10 +120,33 @@ public class BookingService : IBookingService
 
         await _bookingRepository.DeleteAsync(bookingToDelete, ct);
     }
-    
+
     public async Task<IEnumerable<BookingReadDto?>> GetByUserIdAsync(int userId, CancellationToken ct)
     {
         var bookings = await _bookingRepository.GetByUserIdAsync(userId, ct);
         return _mapper.Map<IEnumerable<BookingReadDto?>>(bookings);
     }
+
+    public async Task CancelAsync(int id, CancellationToken ct)
+    {
+        var booking = await _bookingRepository.GetByIdAsync(id, ct);
+        if (booking == null)
+            throw new KeyNotFoundException();
+
+        // Bara avboka om den inte redan är avbokad, hämtad eller återlämnad
+        if (!booking.IsCancelled && !booking.IsReturned && !booking.IsCollected)
+        {
+            booking.IsCancelled = true;
+            await _bookingRepository.UpdateAsync(booking, ct);
+        }
+
+    }
+    
+    public async Task<IEnumerable<BookingReadDto>> GetOverdueAsync(CancellationToken ct = default)
+    {
+        var overdueBookings = await _bookingRepository.GetOverdueAsync(ct);
+
+        return _mapper.Map<IEnumerable<BookingReadDto>>(overdueBookings);
+    }
+
 }

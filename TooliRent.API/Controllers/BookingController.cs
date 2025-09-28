@@ -76,7 +76,7 @@ namespace TooliRent.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Member, admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}/collect")]
         public async Task<IActionResult> Collect(int id, CancellationToken ct)
         {
@@ -91,7 +91,7 @@ namespace TooliRent.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Member, admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}/return")]
         public async Task<IActionResult> Return(int id, CancellationToken ct)
         {
@@ -119,6 +119,42 @@ namespace TooliRent.Api.Controllers
 
             return Ok(bookings);
         }
+
+        [Authorize(Roles = "Member, admin")]
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> Cancel(int id, CancellationToken ct)
+        {
+            var booking = await _bookingService.GetByIdAsync(id, ct);
+            if (booking == null)
+                return NotFound();
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim == null) return Unauthorized();
+
+            int currentUserId = int.Parse(userIdClaim);
+
+            if (booking.UserId != currentUserId && !User.IsInRole("admin"))
+                return Forbid();
+            try
+            {
+                await _bookingService.CancelAsync(id, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [Authorize(Roles = "admin")] // eller receptionist/admin
+        [HttpGet("overdue")]
+        public async Task<IActionResult> GetOverdue(CancellationToken ct)
+        {
+            var overdueBookings = await _bookingService.GetOverdueAsync(ct);
+            return Ok(overdueBookings);
+        }
+
+
 
     }
 }
