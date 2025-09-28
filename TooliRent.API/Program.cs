@@ -7,6 +7,8 @@ using TooliRent.Infrastructure.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using TooliRent.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddDbContext<TooliRentContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<MappingProfile>();

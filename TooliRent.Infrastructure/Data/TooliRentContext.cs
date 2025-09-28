@@ -13,26 +13,31 @@ public class TooliRentContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-{
-    base.OnModelCreating(modelBuilder);
+    {
+        base.OnModelCreating(modelBuilder);
 
-    // User → Bookings (1-to-many)
-    modelBuilder.Entity<User>()
-        .HasMany(u => u.Bookings)
-        .WithOne(b => b.User)
-        .HasForeignKey(b => b.UserId);
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Bookings)
+            .WithOne(b => b.User)
+            .HasForeignKey(b => b.UserId);
 
-    // Tool → Bookings (1-to-many)
-    modelBuilder.Entity<Tool>()
-        .HasMany(t => t.Bookings)
-        .WithOne(b => b.Tool)
-        .HasForeignKey(b => b.ToolId);
+        modelBuilder.Entity<Tool>()
+            .HasMany(t => t.Bookings)
+            .WithOne(b => b.Tool)
+            .HasForeignKey(b => b.ToolId);
 
-    // Category → Tools (1-to-many)
-    modelBuilder.Entity<Category>()
-        .HasMany(c => c.Tools)
-        .WithOne(t => t.Category)
-        .HasForeignKey(t => t.CategoryId);
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Tools)
+            .WithOne(t => t.Category)
+            .HasForeignKey(t => t.CategoryId);
+
+    modelBuilder.Entity<User>().HasData(
+    new User { Id = 1, Username = "Alice", Email = "alice@example.com", PasswordHash = "hashedpassword1", Role = "Member", IsActive = true },
+    new User { Id = 2, Username = "Bob", Email = "bob@example.com", PasswordHash = "hashedpassword2", Role = "Admin", IsActive = true }
+    );
+
+    
+    
 }
 
 }

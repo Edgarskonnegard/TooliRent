@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj": {}
+    "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj": {}
   },
   "projects": {
-    "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj": {
+    "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj",
+        "projectUniqueName": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj",
         "projectName": "TooliRent.API",
-        "projectPath": "/Users/edgarskonnegard/TooliRent/TooliRent.API/TooliRent.API.csproj",
+        "projectPath": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/TooliRent.API.csproj",
         "packagesPath": "/Users/edgarskonnegard/.nuget/packages/",
-        "outputPath": "/Users/edgarskonnegard/TooliRent/TooliRent.API/obj/",
+        "outputPath": "/Users/edgarskonnegard/TooliRent/TooliRent.Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/edgarskonnegard/.nuget/NuGet/NuGet.Config"
@@ -54,6 +54,12 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -266,6 +272,12 @@
               "target": "Package",
               "version": "[9.0.8, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[9.0.8, )"
@@ -274,7 +286,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.8, )"
+              "version": "[9.0.1, )"
             }
           },
           "imports": [

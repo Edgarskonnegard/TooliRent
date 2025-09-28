@@ -43,7 +43,7 @@ public class ToolService : IToolService
 
 
         existingTool.Name = updatedToolDto.Name;
-        existingTool.CategoryId = updatedToolDto.CategoryId;
+        existingTool.CategoryId = updatedToolDto.CategoryId ?? existingTool.CategoryId;
         existingTool.Description = updatedToolDto.Description;
         existingTool.IsAvailable = updatedToolDto.IsAvailable;
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5GTgaguT6Zw=",
+  "dgSpecHash": "lLiAXDBdJ20=",
   "success": true,
   "projectFilePath": "/Users/edgarskonnegard/TooliRent/TooliRent.Infrastructure/TooliRent.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -30,7 +30,7 @@
     "/Users/edgarskonnegard/.nuget/packages/microsoft.entityframeworkcore.design/9.0.8/microsoft.entityframeworkcore.design.9.0.8.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.entityframeworkcore.relational/9.0.8/microsoft.entityframeworkcore.relational.9.0.8.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.entityframeworkcore.sqlserver/9.0.8/microsoft.entityframeworkcore.sqlserver.9.0.8.nupkg.sha512",
-    "/Users/edgarskonnegard/.nuget/packages/microsoft.entityframeworkcore.tools/9.0.8/microsoft.entityframeworkcore.tools.9.0.8.nupkg.sha512",
+    "/Users/edgarskonnegard/.nuget/packages/microsoft.entityframeworkcore.tools/9.0.1/microsoft.entityframeworkcore.tools.9.0.1.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.extensions.apidescription.server/9.0.0/microsoft.extensions.apidescription.server.9.0.0.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.extensions.caching.abstractions/9.0.8/microsoft.extensions.caching.abstractions.9.0.8.nupkg.sha512",
     "/Users/edgarskonnegard/.nuget/packages/microsoft.extensions.caching.memory/9.0.8/microsoft.extensions.caching.memory.9.0.8.nupkg.sha512",
